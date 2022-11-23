@@ -151,6 +151,10 @@ class Interpreter(InterpreterBase):
       obj_name = obj[0]
       member_name = obj[1]
       obj = self._get_value(obj_name)
+      if obj.type() != Type.OBJECT:
+        super().error(ErrorType.TYPE_ERROR,
+                    'cannot',
+                    self.ip)
 
       obj_members = obj.value()
       if obj_members == None:
