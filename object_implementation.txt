@@ -1,0 +1,3 @@
+getting object member:
+1) check if token is an object member
+2) 
