@@ -107,21 +107,33 @@ class Interpreter(InterpreterBase):
         self._endwhile(args)
       case InterpreterBase.VAR_DEF: # v2 statements
         self._define_var(args)
+
       case InterpreterBase.LAMBDA_DEF:
-        self._define_lambda(args)
+        self._define_lambda()
       case InterpreterBase.ENDLAMBDA_DEF:
-        self._endfunc()
+        self._endlambda()
       case default:
         raise Exception(f'Unknown command: {tokens[0]}')
 
   def _blank_line(self):
     self._advance_to_next_statement()
 
-  def _define_lambda(self, args):
-    all_vars = self.env_manager.getAllVariables()
-    print(all_vars)
-    print("printing from define lambda")
-    exit(0)
+  def _define_lambda(self):
+    lambda_name = self.func_manager.create_lambda_name(self.ip)
+    self.env_manager.create_new_symbol('resultf', create_in_top_block=True)
+    self.env_manager.set('resultf', Value(Type.FUNC, lambda_name))
+
+    current_indent = self.indents[self.ip]
+    for line_num in range(self.ip+1, len(self.tokenized_program)):
+      if self.tokenized_program[line_num] and self.tokenized_program[line_num][0] == InterpreterBase.ENDLAMBDA_DEF \
+        and current_indent == self.indents[line_num]:
+        self.ip = line_num + 1
+      
+        return
+
+    # create resultf variable, create lambda name, set resultf = Value(Type.FUNC, lambda_name)
+  def _endlambda(self):
+    self._endfunc()
 
 #I added a little bit to accommodate for FUNC
   def _assign(self, tokens):

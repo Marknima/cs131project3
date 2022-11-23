@@ -1,12 +1,14 @@
 testcode = ['''
 func main void  
-  var object x
-  assign x.a 10 				# x.a’s type is int
-  var int y
-  assign y 20
+  var int x
+  assign x 150
 
-  assign y * x.a y
-  funccall print y			# prints 200
+  lambda object
+    funccall print "hello"
+  endlambda
+
+  funccall resultf
+  funccall print "done"
 endfunc
 
 
