@@ -493,7 +493,6 @@ class Interpreter(InterpreterBase):
         return member_value
       super().error(ErrorType.NAME_ERROR,f"Can't find variable", self.ip)
 
-      # getting object member:
    
 
     # look in environments for variable
@@ -504,8 +503,6 @@ class Interpreter(InterpreterBase):
     if self.func_manager.is_function(token):
       return Value(Type.FUNC, token)
     # not found
-    #print(token)
-    #print("from line 499")
     super().error(ErrorType.NAME_ERROR,f"Unknown variable {token}", self.ip)
 
   # given a variable name and a Value object, associate the name with the value
